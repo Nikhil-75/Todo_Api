@@ -11,4 +11,6 @@ const uservalidation = require('../middlewares/validationdata')
 routers.post('/registers', uservalidation, userReg.userData)
 routers.post('/login', userlogin, userReg.userId)
 routers.post("/forgot-password", userReg.forgetPassword)
+routers.post("/code-verify", userReg.codeVerify)
+routers.put("/verify-reset-password", userReg.resetPassword)
 module.exports = routers;
