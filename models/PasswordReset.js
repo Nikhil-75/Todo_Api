@@ -10,6 +10,8 @@ const PasswordResetSchema = new mongoose.Schema({
 {timestamp : true},
 );
 
-const PasswordReset = mongoose.model('forgetPassword', PasswordResetSchema);
 
-module.exports = PasswordReset
+const PasswordReset =  mongoose.model('forgetPassword', PasswordResetSchema);
+
+module.exports  = {PasswordReset }
+
