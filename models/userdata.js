@@ -11,7 +11,7 @@ const registerSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true, minLength: 6 },
-  confirm_Password: { type: String, required: true }
+
 });
 
 
