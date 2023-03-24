@@ -3,7 +3,7 @@ const Schema= mongoose.Schema;
 
 const refreshTokenSchema = new Schema({
     token:{type:String,unique:true},
-
+   email: {type:String}
    
 },{timestamps:false});
 

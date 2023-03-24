@@ -16,6 +16,7 @@ exports.verifyToken = async (req, res, next) => {
     if(!accessToken) 
     res.status(400).json({ message: "invalid refresh token"})
             req.token = accessToken;
+            console.log(req.token)
             next();
  }
    } catch (error) {

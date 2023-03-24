@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const {Schema}  = mongoose;
 const PasswordResetSchema = new mongoose.Schema({
-  code: { type: String, unique: true },
+  otp: { type: String, unique: true },
 
   email: { type: String, unique: true, required: true },
  isUsed: { type: Boolean,default:false},
@@ -11,7 +11,7 @@ const PasswordResetSchema = new mongoose.Schema({
 );
 
 
-const PasswordReset =  mongoose.model('forgetPassword', PasswordResetSchema);
+const PasswordReset =  mongoose.model('forgetPassword',PasswordResetSchema);
 
 module.exports  = {PasswordReset }
 
