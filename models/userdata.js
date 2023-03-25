@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const {Schema}  = mongoose;
 
-let salt = 10;
+const salt = 10;
 
 const registerSchema = new mongoose.Schema({
 
