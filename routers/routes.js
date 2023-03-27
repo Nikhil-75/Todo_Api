@@ -20,8 +20,9 @@ routers.post("/forgot-password", userReg.forgetPassword)
 // routers.put( "/verify-reset-password",verifyToken,passwordVerify,userReg.resetPassword);
 
 
-routers.post('/addNewTodo', verifyToken, userTodo.addTodo)
-routers.get('/getallTodo', verifyToken, userTodo.allTodo);
-routers.post("/completeTodo", verifyToken, userTodo.completeTodo);
+routers.post('/addNewTodo', verifyToken, userTodo.addNewTodo)
+routers.get('/getallTodo', verifyToken, userTodo.getallTodo);
+routers.post("/completeTodo", verifyToken, userTodo.completeTodo );
 routers.delete("/deleteTodo", verifyToken, userTodo.deleteTodo);
+//routers.get('/showTodo', verifyToken, userTodo.showTodo);
 module.exports = routers;
