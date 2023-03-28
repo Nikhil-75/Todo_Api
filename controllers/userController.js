@@ -110,12 +110,8 @@ exports.userData = async (req, res) => {
     const result = await user.save();
     //Token
     const access_token = jwtService.sign({ _id: result._id });
-    const refresh_token = jwtService.sign(
-      { _id: result._id },
-      JWT_REFRESH,
-      "1y"
-    );
-
+    const refresh_token = jwtService.sign({ _id: result._id },JWT_REFRESH,"1y");
+    
     await refreshToken.create({ token: refresh_token });
     return res.status(200).json({
       message: "register  successfully",
