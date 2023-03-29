@@ -9,7 +9,9 @@ const app = express();
 app.use(express.json())
 
 app.use('/user', routers)
+/*app.use((err,req,res,next)=>{
 
+})*/
 const port = 8084;
 
 main().catch(err => console.log(err));
