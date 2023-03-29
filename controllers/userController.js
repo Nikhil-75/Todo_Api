@@ -1,3 +1,5 @@
+const e = require("express");
+const path = require("path");
 const { UserData } = require("../models/userdata");
 const bcrypt = require("bcryptjs");
 const { PasswordReset } = require("../models/PasswordReset");
@@ -9,7 +11,9 @@ const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 //const {PasswordReset} = require("../models/PasswordReset");
 const JWT_REFRESH = require("../config/index");
-const e = require("express");
+
+const { mailService } = require('../services/EmailService');
+const  { otpmail } = require('../services/otpVerify');
 
 const salt =  10;
 
@@ -20,10 +24,21 @@ exports.forgetPassword = async (req, res, next) => {
     if (!exist) res.status(400).json({ message: error.message });
     await PasswordReset.deleteMany({ email });
     const otp = uuidv4().slice(0, 4);
+
+  ////emailExists
+
+  const emailExt = await PasswordReset.exists({email});
+  if(emailExt) {
+    const updateotp = await otpSchema.findOneAndUpdate({email:email},{otp:otp},
+      {new:true});
+  } else {
     const pr = new PasswordReset({ email, otp });
     await pr.save();
+  }
+  otpmail(otp, req.body.email);
 
-    ////email send..........
+
+
     console.log(pr);
     res.status(200).json({ message: "Reset code is success" });
   } catch (error) {
@@ -101,6 +116,8 @@ exports.userId = async (req, res) => {
   }
 };
 
+
+
 exports.userData = async (req, res) => {
   let access_token;
   let refresh_token;
@@ -110,13 +127,12 @@ exports.userData = async (req, res) => {
     const result = await user.save();
     //Token
     const access_token = jwtService.sign({ _id: result._id });
-    const refresh_token = jwtService.sign(
-      { _id: result._id },
-      JWT_REFRESH,
-      "1y"
-    );
-
+    const refresh_token = jwtService.sign({ _id: result._id },JWT_REFRESH,"1y");
+    
     await refreshToken.create({ token: refresh_token });
+//emailservice
+    mailService(result.email, access_token, Header);
+    
     return res.status(200).json({
       message: "register  successfully",
       refresh_token: refresh_token,
@@ -126,3 +142,33 @@ exports.userData = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+// check email and otp verify
+
+
+
+exports.checkVerifyEmail = async (req, res) => {
+  const Id = req.token._id;
+
+  console.log(Id)
+    try {
+      const user = await UserData.findById(Id);
+
+      console.log(user)
+        
+      if(!user) {
+          res.sendFile(path.join(__dirname, "../view/Email.html"));
+          res.status(400).json({message: "not success"});
+      }
+
+      user.isVerified = true;
+      await user.save();
+
+      res.sendFile(path.join(__dirname, "../view/otp.html"));
+    } catch (error) {
+      res.status(400).json({message: "not success"});
+    }
+  }
+
+   
+

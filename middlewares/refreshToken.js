@@ -24,7 +24,7 @@ const refreshToken = async (req, res, next) => {
         }
     } catch (error) {
         res.status(400).json({
-            message: error.message
+            message: "Unauthrized access"
         });
     }
 
