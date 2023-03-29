@@ -20,3 +20,17 @@ exports.verifyToken = async (req, res, next) => {
     res.status(400).json({ message: "Unauthorized Access" });
   }
 };
+
+
+exports. mailVerify = async (req, res, next) => {
+  try {
+   
+    if (req.headers.token) {
+      const accessToken = jwt.verify(auth, JWT_SECRET);
+      req.req.headers.token = accessToken;
+      next();
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
